@@ -12,6 +12,8 @@
         <ComboBox x:Name="cboSheet" HorizontalAlignment="Left" Margin="114,376,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cboSheet_SelectionChanged"/>
         <Button x:Name="btnImport" Content="Import" HorizontalAlignment="Left" Margin="587,337,0,0" VerticalAlignment="Top" Click="btnImport_Click"/>
         <Button Content="Export" HorizontalAlignment="Left" Margin="587,378,0,0" VerticalAlignment="Top"/>
+        <Label Content="FileName:" HorizontalAlignment="Left" Margin="38,331,0,0" VerticalAlignment="Top"/>
+        <Label Content="Sheet:" HorizontalAlignment="Left" Margin="38,372,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
