@@ -1,10 +1,12 @@
 ﻿using ExcelDataReader;
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,9 +15,11 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace agit_polman_2023_P3
 {
@@ -73,7 +77,7 @@ namespace agit_polman_2023_P3
                                 cboSheet.Items.Add(table.TableName);//Add  sheet to combobox
                         }
                     }
-                    
+
                 }
             }
 
@@ -92,6 +96,77 @@ namespace agit_polman_2023_P3
             //dataGridView1.ItemsSource = dt.DefaultView;
             //dataGridView1.AutoGenerateColumns = true;
             //dataGridView1.CanUserAddRows = false;
+        }
+        public static DataTable DataGridtoDataTable(DataGrid dg)
+        {
+            dg.SelectAllCells();
+            dg.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
+            ApplicationCommands.Copy.Execute(null, dg);
+            dg.UnselectAllCells();
+            String result = (string)Clipboard.GetData(DataFormats.CommaSeparatedValue);
+            string[] Lines = result.Split(new string[] { "\r\n", "\n" },
+            StringSplitOptions.None);
+            string[] Fields;
+            Fields = Lines[0].Split(new char[] { ',' });
+            int Cols = Fields.GetLength(0);
+            DataTable dt = new DataTable();
+            //1st row must be column names; force lower case to ensure matching later on.
+            for (int i = 0; i < Cols; i++)
+                dt.Columns.Add(Fields[i].ToUpper(), typeof(string));
+            DataRow Row;
+            for (int i = 1; i < Lines.GetLength(0) - 1; i++)
+            {
+                Fields = Lines[i].Split(new char[] { ',' });
+                Row = dt.NewRow();
+                for (int f = 0; f < Cols; f++)
+                {
+                    Row[f] = Fields[f];
+                }
+                dt.Rows.Add(Row);
+            }
+            return dt;
+
+        }
+        private void btnExport_Click(object sender, RoutedEventArgs e)
+        {
+            Excel.Application xlApp = new();
+
+            if (xlApp == null)
+            {
+                MessageBox.Show("Excel is not properly installed!!");
+                return;
+            }
+
+            //DataTable dt = (DataTable)dataGridView1.ItemsSource;
+            //var list = new List(dataGridView1.ItemsSource as IEnumerable);
+            var dt = DataGridtoDataTable(dataGridView1);
+
+            Excel.Workbook xlWorkBook = xlApp.Workbooks.Add(Type.Missing);
+
+            Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.ActiveSheet;
+
+            int row = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                int column = 0;
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    ((Excel.Range)xlWorkSheet.Cells[row + 1, column + 1]).Value = dt.Rows[row][column].ToString();
+
+                    column++;
+                }
+
+                row++;
+            }
+
+            xlWorkBook.SaveAs("C:\\Users\\gilan\\OneDrive\\Desktop\\" + new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() + ".xlsx");
+
+            xlWorkBook.Close();
+
+            xlApp.Quit();
+
+            MessageBox.Show("Export Data Success");
+
         }
     }
 }
