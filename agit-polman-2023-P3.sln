@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agit-polman-2023-P3", "agit-polman-2023-P3\agit-polman-2023-P3.csproj", "{426C90CD-5D20-4624-89C7-0E6A2579FD9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{426C90CD-5D20-4624-89C7-0E6A2579FD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{426C90CD-5D20-4624-89C7-0E6A2579FD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{426C90CD-5D20-4624-89C7-0E6A2579FD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{426C90CD-5D20-4624-89C7-0E6A2579FD9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FF2249E-C2B2-482A-9FA5-479915617684}
+	EndGlobalSection
+EndGlobal
